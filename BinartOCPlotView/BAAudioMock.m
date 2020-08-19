@@ -41,7 +41,7 @@
     mixerDesc.componentFlags = 0;
     mixerDesc.componentFlagsMask = 0;
     
-    [AVAudioUnit instantiateWithComponentDescription:mixerDesc
+    [AVAudioUnitGenerator instantiateWithComponentDescription:mixerDesc
                                              options:kAudioComponentInstantiation_LoadOutOfProcess
                                    completionHandler:^(__kindof AVAudioUnit * _Nullable audioUnit, NSError * _Nullable error) {
         if ([audioUnit.AUAudioUnit respondsToSelector:@selector(setOutputProvider:)]) {
@@ -73,7 +73,7 @@
                     [self.delegate updateBuffer:buffer withBufferSize:(UInt32)inputBusNumber];
                 }
                 
-                return noErr;
+                 return noErr;
             };
         }
     }];
