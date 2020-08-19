@@ -10,7 +10,7 @@
 
 // Import EZAudio header
 #import "EZAudio.h"
-#import "ZLHistogramAudioPlot.h"
+#import "BABarAudioPlot.h"
 // Import AVFoundation to play the file (will save EZAudioFile and EZOutput for
 // separate example)
 #import <AVFoundation/AVFoundation.h>
@@ -25,7 +25,7 @@
 /**
  Use a OpenGL based plot to visualize the data coming in
  */
-@property (nonatomic, weak) IBOutlet ZLHistogramAudioPlot *audioPlot;
+@property (nonatomic, weak) IBOutlet BABarAudioPlot *audioPlot;
 
 /**
  A flag indicating whether we are recording or not

@@ -72,10 +72,25 @@
         [UIColor colorWithRed:0.984 green:0.71 blue:0.365 alpha:1];
     // 250.92 181.05 93.075
     // Waveform color
-    // self.audioPlot.color = [UIColor colorWithRed:1.0 green:1.0 blue:1.0
-    // alpha:1.0];
+     self.audioPlot.color = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+    
+    
     // Plot type
-    self.audioPlot.plotType = EZPlotTypeBuffer;
+    
+    // 缓冲：柱状图水平位置不变，且声音频率从左到右，从小变大
+//    self.audioPlot.plotType = EZPlotTypeBuffer;
+    
+    // 滚动
+    // 模式1: 柱状图从右往左滚动
+    
+//    self.audioPlot.plotType = BAPlotTypeRolling;
+    
+    // 模式2: 柱状图水平位置不变，波形从右往左变化
+//    self.audioPlot.displayWaving = YES;
+    
+    // 柱状垂直对齐方式
+//    self.audioPlot.alignment = BABarAudioPlotAlignmentCenter;
+    
     // Fill
     self.audioPlot.shouldFill = YES;
     // Mirror
@@ -120,7 +135,7 @@
         [UIColor colorWithRed:0.310 green:0.765 blue:0.341 alpha:1]
     ];
 
-    self.audioPlot.colors = self.murmurColors;
+//    self.audioPlot.colors = self.murmurColors;
     self.audioPlot.color = [UIColor colorWithWhite:0.598 alpha:1.000];
 
     [self setNumOfBins:self.audioPlot.numOfBins];

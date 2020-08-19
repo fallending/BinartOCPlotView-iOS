@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 Zhixuan Lai. All rights reserved.
 //
 
-#import "ZLHistogramAudioPlot.h"
+#import "BABarAudioPlot.h"
 #import <Accelerate/Accelerate.h>
-#import "EZAudio.h"
+//#import "EZAudio.h"
 
 const UInt32 kMaxFrames = 2048;
 const Float32 kAdjust0DB = 1.5849e-13;
 const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
 
-@interface ZLHistogramAudioPlot () {
+@interface BABarAudioPlot () {
     // ftt setup
     FFTSetup fftSetup;
     COMPLEX_SPLIT A;
@@ -31,7 +31,7 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
 
 @end
 
-@implementation ZLHistogramAudioPlot
+@implementation BABarAudioPlot
 @synthesize backgroundColor = _backgroundColor;
 @synthesize color = _color;
 @synthesize plotType = _plotType;
@@ -56,10 +56,11 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
 - (void)setup:(CGRect)frame {
     // default attributes
     self.maxFrequency = 10000;
-    self.minFrequency = 1200;
-    self.numOfBins = 30;
+    self.minFrequency = 2000;
+    self.barMinHeight = 4;
+    self.numOfBins = 15;
     self.padding = 1 / 10.0;
-    self.gain = 10;
+    self.gain = 4;
     self.gravity = 10;
     self.color = [UIColor lightGrayColor];
     self.colors = @[
@@ -106,7 +107,9 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
     fftSetup = vDSP_create_fftsetup(log2n, FFT_RADIX2);
 
     // inherited properties
-    _plotType = EZPlotTypeRolling;
+    self.plotType = BAPlotTypeRolling;
+    self.alignment = BABarAudioPlotAlignmentCenter;
+    self.displayWaving = YES;
 
     // configure audio session
     AVAudioSession *session = [AVAudioSession sharedInstance];
@@ -146,7 +149,7 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
     deltaHeights = (float *)calloc(sizeof(float), numOfBins);
     self.heightsByTime = [NSMutableArray arrayWithCapacity:numOfBins];
     for (int i = 0; i < numOfBins; i++) {
-        self.heightsByTime[i] = [NSNumber numberWithFloat:0];
+        self.heightsByTime[i] = [NSNumber numberWithFloat:self.barMinHeight];
     }
 }
 
@@ -224,6 +227,9 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
                        1, &avg, numDataPointsPerColumn);
             CGFloat columnHeight =
                 MIN(avg * self.gain, CGRectGetHeight(self.bounds));
+            
+            NSLog(@"%@, %@", @(avg), @(columnHeight));
+            
             maxHeight = MAX(maxHeight, columnHeight);
 
             // set column height, speed and time if needed
@@ -257,26 +263,36 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
 
     CGFloat columnWidth =
         rect.size.width /
-        (_plotType == EZPlotTypeBuffer ? numOfBins : numOfBins - 1);
+        (_plotType == BAPlotTypeBuffer ? numOfBins : numOfBins - 1);
     CGFloat actualWidth = MAX(1, columnWidth * (1 - 2 * self.padding));
     CGFloat actualPadding = (columnWidth - actualWidth) / 2;
     // TODO: warning: padding is larger than width
 
     for (NSUInteger i = 0; i < numOfBins; i++) {
-        CGFloat columnHeight = _plotType == EZPlotTypeBuffer
+        CGFloat columnHeight = _plotType == BAPlotTypeBuffer
                                    ? heightsByFrequency[i]
                                    : [self.heightsByTime[i] floatValue];
+        
+        columnHeight = MAX(self.barMinHeight, columnHeight);
+        
         if (columnHeight <= 0)
             continue;
+        
         CGFloat columnX =
-            i * columnWidth - (_plotType == EZPlotTypeBuffer
+        i * columnWidth - (_plotType == BAPlotTypeBuffer || self.displayWaving
                                    ? 0
                                    : columnWidth * [self rollingOffset]);
+    
+        CGFloat columnY = (CGRectGetHeight(frame) - columnHeight)/(self.alignment == BABarAudioPlotAlignmentCenter ? 2 : 1);
+        
         UIBezierPath *rectanglePath = [UIBezierPath
             bezierPathWithRect:CGRectMake(columnX + actualPadding,
-                                          CGRectGetHeight(frame) - columnHeight,
-                                          actualWidth, columnHeight)];
-        UIColor *color = (_plotType == EZPlotTypeBuffer && self.colors)
+                                          columnY,
+                                          actualWidth,
+                                          columnHeight)];
+        
+        
+        UIColor *color = (_plotType == BAPlotTypeBuffer && self.colors)
                              ? [self.colors objectAtIndex:i % self.colors.count]
                              : self.color;
         [color setFill];

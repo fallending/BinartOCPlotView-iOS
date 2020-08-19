@@ -41,8 +41,6 @@
 #pragma mark - Interface Components
 #import "EZPlot.h"
 #import "EZAudioPlot.h"
-#import "EZAudioPlotGL.h"
-#import "EZAudioPlotGLKViewController.h"
 
 /**
  EZAudio is a simple, intuitive framework for iOS and OSX. The goal of EZAudio was to provide a modular, cross-platform framework to simplify performing everyday audio operations like getting microphone input, creating audio waveforms, recording/playing audio files, etc. The visualization tools like the EZAudioPlot and EZAudioPlotGL were created to plug right into the framework's various components and provide highly optimized drawing routines that work in harmony with audio callback loops. All components retain the same namespace whether you're on an iOS device or a Mac computer so an EZAudioPlot understands it will subclass an UIView on an iOS device or an NSView on a Mac.

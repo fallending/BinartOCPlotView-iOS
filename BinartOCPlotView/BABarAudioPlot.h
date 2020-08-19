@@ -6,9 +6,18 @@
 //  Copyright (c) 2014 Zhixuan Lai. All rights reserved.
 //
 
-#import "EZAudioPlot.h"
+#import "BAAudioPlot.h"
 
-@interface ZLHistogramAudioPlot : EZAudioPlot
+typedef enum : NSUInteger {
+    BABarAudioPlotAlignmentBottom,
+    BABarAudioPlotAlignmentCenter,
+} BABarAudioPlotAlignment;
+
+@interface BABarAudioPlot : BAAudioPlot
+
+@property (nonatomic) BABarAudioPlotAlignment alignment;
+@property (nonatomic) BOOL displayWaving; // rolling 的第二种模式
+@property (nonatomic) CGFloat barMinHeight;
 
 /// The upper bound of the frequency range the audio plot will display. Default:
 /// 10000Hz
