@@ -25,6 +25,7 @@
 
 #import "TargetConditionals.h"
 #import "BAPlot.h"
+#import "BAAudioMock.h"
 
 #define kEZAudioPlotMaxHistoryBufferLength (8192)
 #define kEZAudioPlotDefaultHistoryBufferLength (1024)
@@ -42,7 +43,7 @@
  See EZPlot for full API methods and properties (colors, plot type, update function)
  
  */
-@interface BAAudioPlot : BAPlot {
+@interface BAAudioPlot : BAPlot <BAAudioMockDelegate> {
     CGPoint *plotData;
     UInt32   plotLength;
 }
@@ -64,9 +65,5 @@
  *  @return An int representing the length of the rolling history buffer
  */
 - (int)rollingHistoryLength;
-
-#pragma mark - Subclass Methods
-
-- (void)setSampleData:(float *)data length:(int)length;
 
 @end

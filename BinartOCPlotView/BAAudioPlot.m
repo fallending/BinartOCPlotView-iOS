@@ -10,6 +10,9 @@
   UInt32  _scrollHistoryLength;
   BOOL    _changingHistorySize;
 }
+
+@property (nonatomic, strong) BAAudioMock *mock;
+
 @end
 
 @implementation BAAudioPlot
@@ -55,6 +58,11 @@
   plotData             = NULL;
   _scrollHistory       = NULL;
   _scrollHistoryLength = kEZAudioPlotDefaultHistoryBufferLength;
+    
+    if (kBAPlotEnableMockMode) {
+        self.mock = [BAAudioMock new];
+        self.mock.delegate = self;
+    }
 }
   
 #pragma mark - Setters

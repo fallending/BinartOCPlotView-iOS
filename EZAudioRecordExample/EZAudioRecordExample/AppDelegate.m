@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 
 #import <AVFoundation/AVFoundation.h>
+#import "BAPlot.h"
 
 @implementation AppDelegate
 
@@ -16,7 +17,8 @@
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     // Override point for customization after application launch.
-
+    kBAPlotEnableMockMode = YES;
+    
     // Remember to configure your audio session
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     NSError *err = NULL;

@@ -61,12 +61,9 @@
 
 #pragma mark - Customize the Audio Plot
 - (void)viewDidLoad {
-
     [super viewDidLoad];
 
-    /*
-     Customizing the audio plot's look
-     */
+
     // Background color
     self.audioPlot.backgroundColor =
         [UIColor colorWithRed:0.984 green:0.71 blue:0.365 alpha:1];
@@ -286,24 +283,27 @@
         // Internally the audio plot will handle all the drawing related code,
         // history management, and freeing its own resources. Hence, one badass
         // line of code gets you a pretty plot :)
-        [self.audioPlot updateBuffer:buffer[0] withBufferSize:bufferSize];
+        if (!kBAPlotEnableMockMode) {
+            [self.audioPlot updateBuffer:buffer[0] withBufferSize:bufferSize];
+        }
+        
     });
 }
 
-- (void)microphone:(EZMicrophone *)microphone
-           hasBufferList:(AudioBufferList *)bufferList
-          withBufferSize:(UInt32)bufferSize
-    withNumberOfChannels:(UInt32)numberOfChannels {
-
-    // Getting audio data as a buffer list that can be directly fed into the
-    // EZRecorder. This is happening on the audio thread - any UI updating needs
-    // a GCD main queue block. This will keep appending data to the tail of the
-    // audio file.
-    if (self.isRecording) {
-        [self.recorder appendDataFromBufferList:bufferList
-                                 withBufferSize:bufferSize];
-    }
-}
+//- (void)microphone:(EZMicrophone *)microphone
+//           hasBufferList:(AudioBufferList *)bufferList
+//          withBufferSize:(UInt32)bufferSize
+//    withNumberOfChannels:(UInt32)numberOfChannels {
+//
+//    // Getting audio data as a buffer list that can be directly fed into the
+//    // EZRecorder. This is happening on the audio thread - any UI updating needs
+//    // a GCD main queue block. This will keep appending data to the tail of the
+//    // audio file.
+//    if (self.isRecording) {
+//        [self.recorder appendDataFromBufferList:bufferList
+//                                 withBufferSize:bufferSize];
+//    }
+//}
 
 #pragma mark - AVAudioPlayerDelegate
 /*

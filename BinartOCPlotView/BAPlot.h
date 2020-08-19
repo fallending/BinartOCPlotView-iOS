@@ -2,6 +2,8 @@
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
 
+extern BOOL kBAPlotEnableMockMode;
+
 typedef enum : NSUInteger {
     BAPlotTypeBuffer = 1 << 0,
     BAPlotTypeRolling = 1 << 1,

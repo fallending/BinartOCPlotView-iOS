@@ -1,6 +1,8 @@
 
 #import "BAPlot.h"
 
+BOOL kBAPlotEnableMockMode = NO;
+
 @interface BAPlot ()
 
 @end

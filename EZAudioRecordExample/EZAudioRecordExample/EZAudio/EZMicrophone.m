@@ -87,6 +87,7 @@ static OSStatus inputCallback(void                          *inRefCon,
                               AudioBufferList               *ioData ) {
   EZMicrophone *microphone = (__bridge EZMicrophone*)inRefCon;
   OSStatus      result     = noErr;
+    
   // Render audio into buffer
   result = AudioUnitRender(microphone->microphoneInput,
                            ioActionFlags,
