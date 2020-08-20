@@ -17,7 +17,7 @@
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     // Override point for customization after application launch.
-    kBAPlotEnableMockMode = YES;
+    kBAPlotEnableMockMode = NO;
     
     // Remember to configure your audio session
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];

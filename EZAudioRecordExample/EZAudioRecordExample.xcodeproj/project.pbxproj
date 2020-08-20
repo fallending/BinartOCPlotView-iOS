@@ -22,7 +22,6 @@
 		14A968E124ED2C5900277CFD /* BAPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A968DB24ED2C5900277CFD /* BAPlot.m */; };
 		14A968E224ED2C5900277CFD /* BAAudioPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A968DC24ED2C5900277CFD /* BAAudioPlot.m */; };
 		14A968E324ED2C5900277CFD /* BABarAudioPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A968DD24ED2C5900277CFD /* BABarAudioPlot.m */; };
-		14A968E624ED34D900277CFD /* BAAudioMock.m in Sources */ = {isa = PBXBuildFile; fileRef = 14A968E524ED34D900277CFD /* BAAudioMock.m */; };
 		940570CC185E7F8300EB94BA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 940570CB185E7F8300EB94BA /* Foundation.framework */; };
 		940570CE185E7F8300EB94BA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 940570CD185E7F8300EB94BA /* CoreGraphics.framework */; };
 		940570D0185E7F8300EB94BA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 940570CF185E7F8300EB94BA /* UIKit.framework */; };
@@ -82,8 +81,6 @@
 		14A968DE24ED2C5900277CFD /* BAPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BAPlot.h; sourceTree = "<group>"; };
 		14A968DF24ED2C5900277CFD /* BABarAudioPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BABarAudioPlot.h; sourceTree = "<group>"; };
 		14A968E024ED2C5900277CFD /* BAAudioPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BAAudioPlot.h; sourceTree = "<group>"; };
-		14A968E424ED34D900277CFD /* BAAudioMock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BAAudioMock.h; sourceTree = "<group>"; };
-		14A968E524ED34D900277CFD /* BAAudioMock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BAAudioMock.m; sourceTree = "<group>"; };
 		940570C8185E7F8300EB94BA /* EZAudioRecordExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EZAudioRecordExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		940570CB185E7F8300EB94BA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		940570CD185E7F8300EB94BA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -182,8 +179,6 @@
 				14A968DD24ED2C5900277CFD /* BABarAudioPlot.m */,
 				14A968DE24ED2C5900277CFD /* BAPlot.h */,
 				14A968DB24ED2C5900277CFD /* BAPlot.m */,
-				14A968E424ED34D900277CFD /* BAAudioMock.h */,
-				14A968E524ED34D900277CFD /* BAAudioMock.m */,
 			);
 			name = BinartOCPlotView;
 			path = ../../BinartOCPlotView;
@@ -380,7 +375,6 @@
 				09E3EB8B1A19ED44000022FB /* EZAudioFile.m in Sources */,
 				14A968E124ED2C5900277CFD /* BAPlot.m in Sources */,
 				94057105185E805900EB94BA /* RecordViewController.m in Sources */,
-				14A968E624ED34D900277CFD /* BAAudioMock.m in Sources */,
 				09E3EB901A19ED44000022FB /* EZMicrophone.m in Sources */,
 				09E3EB8A1A19ED44000022FB /* EZAudio.m in Sources */,
 				940570DC185E7F8300EB94BA /* AppDelegate.m in Sources */,

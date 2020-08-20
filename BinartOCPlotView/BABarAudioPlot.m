@@ -155,6 +155,33 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
 
 #pragma mark - Timer Callback
 - (void)updateHeights {
+    
+    // 随机序列发生器
+    if (kBAPlotEnableMockMode) {
+        // 振幅 amplitude
+        const double amplitude = ((float)rand() / RAND_MAX) * 0.8; // 0~2
+        static double theta = 0.0;
+        double thetaIncrement = 2.0 * M_PI * 880.0 / 44100.0;
+        NSUInteger inNumberFrames = 512;
+        float *buffer = malloc(sizeof(float)*inNumberFrames);
+        
+        // Generate the samples
+        for (UInt32 frame = 0; frame < inNumberFrames; frame ++) {
+            buffer[frame] = sin(theta) * amplitude;
+
+            theta += thetaIncrement;
+
+            if (theta >= 2.0 * M_PI) {
+                theta -= 2.0 * M_PI;
+            }
+        }
+
+        [self updateBuffer:buffer withBufferSize:(UInt32)inNumberFrames];
+        
+        free(buffer);
+        buffer = nil;
+
+    }
     // delay from last frame
     float delay = self.displaylink.duration * self.displaylink.frameInterval;
 
@@ -303,11 +330,7 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
 }
 
 - (void)_refreshDisplay {
-#if TARGET_OS_IPHONE
     [self setNeedsDisplay];
-#elif TARGET_OS_MAC
-    [self setNeedsDisplay:YES];
-#endif
 }
 
 #pragma mark - ()
