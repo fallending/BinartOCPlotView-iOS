@@ -16,12 +16,6 @@
 @end
 
 @implementation BAAudioPlot
-@synthesize backgroundColor = _backgroundColor;
-@synthesize color           = _color;
-@synthesize gain            = _gain;
-@synthesize plotType        = _plotType;
-@synthesize shouldFill      = _shouldFill;
-@synthesize shouldMirror    = _shouldMirror;
 
 - (id)init {
   self = [super init];
@@ -48,8 +42,8 @@
 }
   
 - (void)initPlot {
-  self.backgroundColor = [UIColor blackColor];
-  self.color           = [UIColor colorWithHue:0 saturation:1.0 brightness:1.0 alpha:1.0];
+  self.plotBackgroundColor = [UIColor clearColor];
+  self.plotColor           = [UIColor lightGrayColor];
   self.gain            = 1.0;
   self.plotType        = BAPlotTypeRolling;
   self.shouldMirror    = NO;
@@ -57,40 +51,6 @@
   plotData             = NULL;
   _scrollHistory       = NULL;
   _scrollHistoryLength = kEZAudioPlotDefaultHistoryBufferLength;
-}
-
-- (void)setBackgroundColor:(id)backgroundColor {
-    _backgroundColor = backgroundColor;
-    [self _refreshDisplay];
-}
-  
-- (void)setColor:(id)color {
-    _color = color;
-    [self _refreshDisplay];
-}
-  
-- (void)setGain:(float)gain {
-    _gain = gain;
-    [self _refreshDisplay];
-}
-
-- (void)setPlotType:(BAPlotType)plotType {
-    _plotType = plotType;
-    [self _refreshDisplay];
-}
-
-- (void)setShouldFill:(BOOL)shouldFill {
-    _shouldFill = shouldFill;
-    [self _refreshDisplay];
-}
-
-- (void)setShouldMirror:(BOOL)shouldMirror {
-    _shouldMirror = shouldMirror;
-    [self _refreshDisplay];
-}
-  
-- (void)_refreshDisplay {
-    [self setNeedsDisplay];
 }
   
 - (void)setSampleData:(float *)data
@@ -104,14 +64,14 @@
   
     for (int i = 0; i < length; i++) {
         data[i]     = i == 0 ? 0 : data[i];
-        plotData[i] = CGPointMake(i,data[i] * _gain);
+        plotData[i] = CGPointMake(i,data[i] * self.gain);
     }
     
-    [self _refreshDisplay];
+    [self refreshDisplay];
 }
   
 - (void)updateBuffer:(float *)buffer withBufferSize:(UInt32)bufferSize {
-    if( _plotType == BAPlotTypeRolling ) {
+    if( self.plotType == BAPlotTypeRolling ) {
     
     // Update the scroll history datasource
       // 如果需要BAAudioPlot好好工作，需要 EZAudio，目前只能支持柱状波形图
@@ -128,7 +88,7 @@
         _setMaxLength = YES;
     
     }
-    else if( _plotType == BAPlotTypeBuffer ){
+    else if( self.plotType == BAPlotTypeBuffer ){
     
         [self setSampleData:buffer
                      length:bufferSize];
@@ -148,7 +108,7 @@
     [(UIColor*)self.backgroundColor set];
     UIRectFill(frame);
     // Set the waveform line color
-    [(UIColor*)self.color set];
+    [(UIColor*)self.plotColor set];
 
     if (plotLength > 0) {
       

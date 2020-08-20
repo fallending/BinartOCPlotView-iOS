@@ -11,28 +11,28 @@ typedef enum : NSUInteger {
 
 @interface BAPlot : UIView
 
-@property (nonatomic, strong) id backgroundColor;
-@property (nonatomic, strong) id color;
+@property (nonatomic, strong) UIColor *plotBackgroundColor;
+@property (nonatomic, strong) UIColor *plotColor;
 
 /**
  The plot's gain value, which controls the scale of the y-axis values. The default value of the gain is 1.0f and should always be greater than 0.0f.
  */
-@property (nonatomic, assign, setter=setGain:) float gain;
+@property (nonatomic, assign) float gain;
 
 /**
  The type of plot as specified by the `EZPlotType` enumeration (i.e. a buffer or rolling plot type).
  */
-@property (nonatomic, assign, setter=setPlotType:) BAPlotType plotType;
+@property (nonatomic, assign) BAPlotType plotType;
 
 /**
  A boolean indicating whether or not to fill in the graph. A value of YES will make a filled graph (filling in the space between the x-axis and the y-value), while a value of NO will create a stroked graph (connecting the points along the y-axis).
  */
-@property (nonatomic, assign, setter=setShouldFill:) BOOL shouldFill;
+@property (nonatomic, assign) BOOL shouldFill;
 
 /**
  A boolean indicating whether the graph should be rotated along the x-axis to give a mirrored reflection. This is typical for audio plots to produce the classic waveform look. A value of YES will produce a mirrored reflection of the y-values about the x-axis, while a value of NO will only plot the y-values.
  */
-@property (nonatomic, assign, setter=setShouldMirror:) BOOL shouldMirror;
+@property (nonatomic, assign) BOOL shouldMirror;
 
 // MARK: = Clearing
 
@@ -58,5 +58,7 @@ typedef enum : NSUInteger {
  @warning The bufferSize is expected to be the same, constant value once initial triggered. For plots using OpenGL a vertex buffer object will be allocated with a maximum buffersize of (2 * the initial given buffer size) to account for any interpolation necessary for filling in the graph. Updates use the glBufferSubData(...) function, which will crash if the buffersize exceeds the initial maximum allocated size.
  */
 - (void)updateBuffer:(float *)buffer withBufferSize:(UInt32)bufferSize;
+
+- (void)refreshDisplay;
 
 @end

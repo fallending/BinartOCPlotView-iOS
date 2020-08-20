@@ -65,11 +65,11 @@
 
 
     // Background color
-    self.audioPlot.backgroundColor =
-        [UIColor colorWithRed:0.984 green:0.71 blue:0.365 alpha:1];
+    self.audioPlot.backgroundColor = [UIColor clearColor];
+//        [UIColor colorWithRed:0.984 green:0.71 blue:0.365 alpha:1];
     // 250.92 181.05 93.075
     // Waveform color
-     self.audioPlot.color = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
+//     self.audioPlot.color = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0];
     
     
     // Plot type
@@ -89,51 +89,51 @@
 //    self.audioPlot.alignment = BABarAudioPlotAlignmentCenter;
     
     // Fill
-    self.audioPlot.shouldFill = YES;
-    // Mirror
-    self.audioPlot.shouldMirror = YES;
+//    self.audioPlot.shouldFill = YES;
+//    // Mirror
+//    self.audioPlot.shouldMirror = YES;
 
-    self.murmurColors = @[
-        [UIColor colorWithRed:242 / 255.0
-                        green:128 / 255.0
-                         blue:78 / 255.0
-                        alpha:1],
-        [UIColor colorWithRed:40 / 255.0
-                        green:56 / 255.0
-                         blue:72 / 255.0
-                        alpha:1],
-        [UIColor colorWithRed:244 / 255.0
-                        green:234 / 255.0
-                         blue:119 / 255.0
-                        alpha:1],
-        [UIColor colorWithRed:255 / 255.0
-                        green:197 / 255.0
-                         blue:69 / 255.0
-                        alpha:1],
-        [UIColor colorWithRed:193 / 255.0
-                        green:75 / 255.0
-                         blue:43 / 255.0
-                        alpha:1],
-        [UIColor colorWithRed:40 / 255.0
-                        green:181 / 255.0
-                         blue:164 / 255.0
-                        alpha:1],
-        [UIColor colorWithRed:208 / 255.0
-                        green:221 / 255.0
-                         blue:38 / 255.0
-                        alpha:1],
-    ];
+//    self.murmurColors = @[
+//        [UIColor colorWithRed:242 / 255.0
+//                        green:128 / 255.0
+//                         blue:78 / 255.0
+//                        alpha:1],
+//        [UIColor colorWithRed:40 / 255.0
+//                        green:56 / 255.0
+//                         blue:72 / 255.0
+//                        alpha:1],
+//        [UIColor colorWithRed:244 / 255.0
+//                        green:234 / 255.0
+//                         blue:119 / 255.0
+//                        alpha:1],
+//        [UIColor colorWithRed:255 / 255.0
+//                        green:197 / 255.0
+//                         blue:69 / 255.0
+//                        alpha:1],
+//        [UIColor colorWithRed:193 / 255.0
+//                        green:75 / 255.0
+//                         blue:43 / 255.0
+//                        alpha:1],
+//        [UIColor colorWithRed:40 / 255.0
+//                        green:181 / 255.0
+//                         blue:164 / 255.0
+//                        alpha:1],
+//        [UIColor colorWithRed:208 / 255.0
+//                        green:221 / 255.0
+//                         blue:38 / 255.0
+//                        alpha:1],
+//    ];
 
-    self.audioCopyColors = @[
-        [UIColor colorWithRed:1 green:0.467 blue:0 alpha:1],
-        [UIColor blackColor],
-        [UIColor colorWithRed:0.157 green:0.6 blue:0.765 alpha:1],
-        [UIColor colorWithRed:0.125 green:0.675 blue:0.910 alpha:1],
-        [UIColor colorWithRed:0.310 green:0.765 blue:0.341 alpha:1]
-    ];
+//    self.audioCopyColors = @[
+//        [UIColor colorWithRed:1 green:0.467 blue:0 alpha:1],
+//        [UIColor blackColor],
+//        [UIColor colorWithRed:0.157 green:0.6 blue:0.765 alpha:1],
+//        [UIColor colorWithRed:0.125 green:0.675 blue:0.910 alpha:1],
+//        [UIColor colorWithRed:0.310 green:0.765 blue:0.341 alpha:1]
+//    ];
 
 //    self.audioPlot.colors = self.murmurColors;
-    self.audioPlot.color = [UIColor colorWithWhite:0.598 alpha:1.000];
+//    self.audioPlot.color = [UIColor colorWithWhite:0.598 alpha:1.000];
 
     [self setNumOfBins:self.audioPlot.numOfBins];
 

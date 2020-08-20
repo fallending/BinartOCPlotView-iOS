@@ -34,7 +34,7 @@ typedef enum : NSUInteger {
 @property (nonatomic) CGFloat padding;
 
 /// The gain applied to the height of each bin. Default: 10
-@property (nonatomic) CGFloat gain;
+//@property (nonatomic) CGFloat gain;
 
 /// A float that specifies the vertical gravitational acceleration applied to
 /// each bin. Default: 10 pixel/sec^2

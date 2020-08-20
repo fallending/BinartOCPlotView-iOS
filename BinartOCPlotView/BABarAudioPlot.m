@@ -32,11 +32,6 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
 @end
 
 @implementation BABarAudioPlot
-@synthesize backgroundColor = _backgroundColor;
-@synthesize color = _color;
-@synthesize plotType = _plotType;
-@synthesize numOfBins;
-@synthesize gain;
 
 #pragma mark - Init
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -64,34 +59,13 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
     self.gravity = 10;
     self.color = [UIColor lightGrayColor];
     self.colors = @[
-        [UIColor colorWithRed:242 / 255.0
-                        green:128 / 255.0
-                         blue:78 / 255.0
-                        alpha:1],
-        [UIColor colorWithRed:40 / 255.0
-                        green:56 / 255.0
-                         blue:72 / 255.0
-                        alpha:1],
-        [UIColor colorWithRed:244 / 255.0
-                        green:234 / 255.0
-                         blue:119 / 255.0
-                        alpha:1],
-        [UIColor colorWithRed:255 / 255.0
-                        green:197 / 255.0
-                         blue:69 / 255.0
-                        alpha:1],
-        [UIColor colorWithRed:193 / 255.0
-                        green:75 / 255.0
-                         blue:43 / 255.0
-                        alpha:1],
-        [UIColor colorWithRed:40 / 255.0
-                        green:181 / 255.0
-                         blue:164 / 255.0
-                        alpha:1],
-        [UIColor colorWithRed:208 / 255.0
-                        green:221 / 255.0
-                         blue:38 / 255.0
-                        alpha:1],
+        [UIColor lightGrayColor],
+        [UIColor lightGrayColor],
+        [UIColor lightGrayColor],
+        [UIColor lightGrayColor],
+        [UIColor lightGrayColor],
+        [UIColor lightGrayColor],
+        [UIColor lightGrayColor],
     ];
 
     // ftt setup
@@ -135,20 +109,20 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
 
 #pragma mark - Properties
 - (void)setNumOfBins:(NSUInteger)someNumOfBins {
-    numOfBins = MAX(1, someNumOfBins);
+    _numOfBins = MAX(1, someNumOfBins);
 
     // reset buffers
     [self freeBuffersIfNeeded];
 
     // create buffers
-    heightsByFrequency = (float *)calloc(sizeof(float), numOfBins);
-    speeds = (float *)calloc(sizeof(float), numOfBins);
-    times = (float *)calloc(sizeof(float), numOfBins);
-    tSqrts = (float *)calloc(sizeof(float), numOfBins);
-    vts = (float *)calloc(sizeof(float), numOfBins);
-    deltaHeights = (float *)calloc(sizeof(float), numOfBins);
-    self.heightsByTime = [NSMutableArray arrayWithCapacity:numOfBins];
-    for (int i = 0; i < numOfBins; i++) {
+    heightsByFrequency = (float *)calloc(sizeof(float), _numOfBins);
+    speeds = (float *)calloc(sizeof(float), _numOfBins);
+    times = (float *)calloc(sizeof(float), _numOfBins);
+    tSqrts = (float *)calloc(sizeof(float), _numOfBins);
+    vts = (float *)calloc(sizeof(float), _numOfBins);
+    deltaHeights = (float *)calloc(sizeof(float), _numOfBins);
+    self.heightsByTime = [NSMutableArray arrayWithCapacity:_numOfBins];
+    for (int i = 0; i < _numOfBins; i++) {
         self.heightsByTime[i] = [NSNumber numberWithFloat:self.barMinHeight];
     }
 }
@@ -186,24 +160,24 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
     float delay = self.displaylink.duration * self.displaylink.frameInterval;
 
     // increment time
-    vDSP_vsadd(times, 1, &delay, times, 1, numOfBins);
+    vDSP_vsadd(times, 1, &delay, times, 1, _numOfBins);
 
     // clamp time
     static const float timeMin = 1.5, timeMax = 10;
-    vDSP_vclip(times, 1, &timeMin, &timeMax, times, 1, numOfBins);
+    vDSP_vclip(times, 1, &timeMin, &timeMax, times, 1, _numOfBins);
 
     // increment speed
     float g = self.gravity * delay;
-    vDSP_vsma(times, 1, &g, speeds, 1, speeds, 1, numOfBins);
+    vDSP_vsma(times, 1, &g, speeds, 1, speeds, 1, _numOfBins);
 
     // increment height
-    vDSP_vsq(times, 1, tSqrts, 1, numOfBins);
-    vDSP_vmul(speeds, 1, times, 1, vts, 1, numOfBins);
+    vDSP_vsq(times, 1, tSqrts, 1, _numOfBins);
+    vDSP_vmul(speeds, 1, times, 1, vts, 1, _numOfBins);
     float aOver2 = g / 2;
-    vDSP_vsma(tSqrts, 1, &aOver2, vts, 1, deltaHeights, 1, numOfBins);
-    vDSP_vneg(deltaHeights, 1, deltaHeights, 1, numOfBins);
+    vDSP_vsma(tSqrts, 1, &aOver2, vts, 1, deltaHeights, 1, _numOfBins);
+    vDSP_vneg(deltaHeights, 1, deltaHeights, 1, _numOfBins);
     vDSP_vadd(heightsByFrequency, 1, deltaHeights, 1, heightsByFrequency, 1,
-              numOfBins);
+              _numOfBins);
 
     [self _refreshDisplay];
 }
@@ -243,10 +217,10 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
         int minFrequencyIndex = self.minFrequency / mul;
         int maxFrequencyIndex = self.maxFrequency / mul;
         int numDataPointsPerColumn =
-            (maxFrequencyIndex - minFrequencyIndex) / numOfBins;
+            (maxFrequencyIndex - minFrequencyIndex) / _numOfBins;
         float maxHeight = 0;
 
-        for (NSUInteger i = 0; i < numOfBins; i++) {
+        for (NSUInteger i = 0; i < _numOfBins; i++) {
             // calculate new column height
             float avg = 0;
             vDSP_meanv(dataBuffer + minFrequencyIndex +
@@ -255,7 +229,7 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
             CGFloat columnHeight =
                 MIN(avg * self.gain, CGRectGetHeight(self.bounds));
             
-            NSLog(@"%@, %@", @(avg), @(columnHeight));
+//            NSLog(@"%@, %@", @(avg), @(columnHeight));
             
             maxHeight = MAX(maxHeight, columnHeight);
 
@@ -268,7 +242,7 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
         }
 
         [self.heightsByTime addObject:[NSNumber numberWithFloat:maxHeight]];
-        if (self.heightsByTime.count > numOfBins) {
+        if (self.heightsByTime.count > _numOfBins) {
             [self.heightsByTime removeObjectAtIndex:0];
         }
     }
@@ -285,18 +259,17 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
     CGRect frame = self.bounds;
 
     // set the background color
-    [(UIColor *)self.backgroundColor set];
+    [(UIColor *)self.plotBackgroundColor set];
     UIRectFill(frame);
 
     CGFloat columnWidth =
-        rect.size.width /
-        (_plotType == BAPlotTypeBuffer ? numOfBins : numOfBins - 1);
+        rect.size.width / (self.plotType == BAPlotTypeBuffer ? _numOfBins : _numOfBins - 1);
     CGFloat actualWidth = MAX(1, columnWidth * (1 - 2 * self.padding));
     CGFloat actualPadding = (columnWidth - actualWidth) / 2;
     // TODO: warning: padding is larger than width
 
-    for (NSUInteger i = 0; i < numOfBins; i++) {
-        CGFloat columnHeight = _plotType == BAPlotTypeBuffer
+    for (NSUInteger i = 0; i < _numOfBins; i++) {
+        CGFloat columnHeight = self.plotType == BAPlotTypeBuffer
                                    ? heightsByFrequency[i]
                                    : [self.heightsByTime[i] floatValue];
         
@@ -306,7 +279,7 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
             continue;
         
         CGFloat columnX =
-        i * columnWidth - (_plotType == BAPlotTypeBuffer || self.displayWaving
+        i * columnWidth - (self.plotType == BAPlotTypeBuffer || self.displayWaving
                                    ? 0
                                    : columnWidth * [self rollingOffset]);
     
@@ -319,7 +292,7 @@ const NSInteger kFrameInterval = 1; // Alter this to draw more or less often
                                           columnHeight)];
         
         
-        UIColor *color = (_plotType == BAPlotTypeBuffer && self.colors)
+        UIColor *color = (self.plotType == BAPlotTypeBuffer && self.colors)
                              ? [self.colors objectAtIndex:i % self.colors.count]
                              : self.color;
         [color setFill];
